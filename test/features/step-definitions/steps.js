@@ -27,7 +27,7 @@ Then(/^I should see a flash message saying (.*)$/, async (message) => {
  */
 Given(/^A web page is openned$/, async function () {
 
-    await browser.url("https://the-internet.herokuapp.com/dropdown")
+    await browser.url("https://the-internet.herokuapp.com/checkboxes")
     await browser.setTimeout({ implicit: 15000, pageLoad: 10000 })
     await browser.maximizeWindow()
 
@@ -80,19 +80,35 @@ When(/^Perform web interations$/, async function () {
      * 3. Get a list of option
      */
 
-    let eleArr = await $$(`select>option`);
-    let arr = [];
-    for (let i = 0; i < eleArr.length; i++) { // Corrected the typo here
-        let ele = eleArr[i];
-        let val = await ele.getText();
-        arr.push(val);
-        console.log(val);
-    }
+    // let eleArr = await $$(`select>option`);
+    // let arr = [];
+    // for (let i = 0; i < eleArr.length; i++) { // Corrected the typo here
+    //     let ele = eleArr[i];
+    //     let val = await ele.getText();
+    //     arr.push(val);
+    //     console.log(val);
+    // }
 
-    console.log(`>>Option array: ${arr}`);
+    // console.log(`>>Option array: ${arr}`);
+
+    /**
+     * 3. Check box
+     * Action:
+     * 1. Select an action
+     * 2. Unselect an option (if selected)
+     * 3. Alert if option selected
+     * 4. Select all options
+     * 
+     */
+    let ele = await $(`//form[@id="checkboxes"]//input[1]`)
+    await ele.click()
 
 
-    await browser.debug()
+    let ele2= await $(`//form[@id="checkboxes"]//input[2]`)
+    await ele2.click()
+
+    
+    // await browser.debug()
 
 })
 
