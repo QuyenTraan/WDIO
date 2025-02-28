@@ -1,14 +1,12 @@
-import { Given, When, Then } from '@wdio/cucumber-framework';
-import { expect, $, browser } from '@wdio/globals'
-import * as chai from 'chai';
-
-
-import LoginPage from '../pageobjects/login.page.js';
-import SecurePage from '../pageobjects/secure.page.js';
+import { Given, When, Then } from "@wdio/cucumber-framework";
+import { $, browser } from "@wdio/globals";
+import { expect as chai } from 'chai';
+import LoginPage from "../pageobjects/login.page.js";
+import SecurePage from "../pageobjects/secure.page.js";
 
 const pages = {
-    login: LoginPage
-}
+    login: LoginPage,
+};
 
 Given(/^I am on the (\w+) page$/, async (page) => {
     // await pages[page].open()
@@ -26,14 +24,10 @@ Then(/^I should see a flash message saying (.*)$/, async (message) => {
  * Web interaction
  */
 Given(/^A web page is openned$/, async function () {
-
-    await browser.url("https://the-internet.herokuapp.com/checkboxes")
-    await browser.setTimeout({ implicit: 15000, pageLoad: 10000 })
-    await browser.maximizeWindow()
-
-}
-
-)
+    await browser.url("https://the-internet.herokuapp.com/checkboxes");
+    await browser.setTimeout({ implicit: 15000, pageLoad: 10000 });
+    await browser.maximizeWindow();
+});
 When(/^Perform web interations$/, async function () {
     /**
      * 1.Input box
@@ -96,19 +90,32 @@ When(/^Perform web interations$/, async function () {
      * Action:
      * 1. Select an action
      * 2. Unselect an option (if selected)
-     * 3. Alert if option selected
+     * 3. Asert if option selected
      * 4. Select all options
-     * 
+     *
      */
-    let ele = await $(`//form[@id="checkboxes"]//input[1]`)
-    await ele.click()
 
+    //1. Select an action
+    // let ele = await $(`//form[@id="checkboxes"]//input[1]`)
+    // await ele.click()
+    let elaArr = await $$(`//form[@id="checkboxes"]//input`);
+    // await ele2.click()
+    //2. Unselect an option if selected
 
-    let ele2= await $(`//form[@id="checkboxes"]//input[2]`)
-    await ele2.click()
-
-    
+    //   if (!(await ele2.isSelected())) {
+    //     await ele2.click();
+    //   }
+    //3. Asert if option selected
+    // let isChecked = await ele2.isSelected();
+    // chai.expect(isChecked).to.be.true
     // await browser.debug()
+    // 4.Select all optiond
+    for (let i = 0; i < elaArr.length; i++) {
+        let ele = elaArr[i];
+        if (!await ele.isSelected()) {
+            ele.click()
+        }
+    }
 
-})
 
+});
