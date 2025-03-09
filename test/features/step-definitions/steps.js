@@ -1,6 +1,6 @@
 import { Given, When, Then } from "@wdio/cucumber-framework";
 import { $, browser } from "@wdio/globals";
-import { expect as chai } from "chai";
+import { expect } from "chai";
 import LoginPage from "../pageobjects/login.page.js";
 import SecurePage from "../pageobjects/secure.page.js";
 
@@ -93,7 +93,16 @@ When(/^Perform web interations$/, async function () {
   await btnLastSubmit.click();
   await browser.pause(5000);
 
+  await divTitlle.waitForDisplayed({ timeout: 5000 });
 
+// Get the text of the element
+let elementText = await divTitlle.getText();
+
+// Log the text for debugging purposes
+console.log(elementText);
+
+// Use Chai to perform the assertion
+expect(elementText).to.equal('242123053411-Bảo đảm chất lượng phần mềm');
 
 
   /**
